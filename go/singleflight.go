@@ -155,7 +155,7 @@ func (g *Group) doCall(c *call, key string, fn func() (interface{}, error)) {
 			// In order to prevent the waiting channels from being blocked forever,
 			// needs to ensure that this panic cannot be recovered.
 			if len(c.chans) > 0 {
-				go panic(e)
+				go panic(e) // 这里单独起一个goroutine是为了什么，这个panic肯定不会被recover
 				select {} // Keep this goroutine around so that it will appear in the crash dump.
 			} else {
 				panic(e)
@@ -167,6 +167,7 @@ func (g *Group) doCall(c *call, key string, fn func() (interface{}, error)) {
 			for _, ch := range c.chans {
 				ch <- Result{c.val, c.err, c.dups > 0}
 			}
+			// 只有DoChan才会需要这个结果
 		}
 	}()
 
@@ -183,6 +184,9 @@ func (g *Group) doCall(c *call, key string, fn func() (interface{}, error)) {
 				if r := recover(); r != nil {
 					c.err = newPanicError(r)
 				}
+				// 正常返回：normalReturn=true，recovered=false
+				// panic：normalReturn=false，recovered=true
+				// goexit：normalReturn=false，recovered=false
 			}
 		}()
 
