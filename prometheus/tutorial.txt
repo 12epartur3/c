@@ -1,0 +1,8 @@
+1、rate(rpc_retry_qps{callee="xx", application="$service", env="$env", region="$region", traffic_flag=~"$traffic_flag",method=~"$scenario", job=~"$idc", code="OK"} [1m])
+该pql计算一分钟内rpc_retry_qps的变化率，后面花括号中，只要某个标签值不一样，都会单独列出来，产生很多条结果。
+
+2、sum( rate(rpc_retry_qps{callee="xx", application="$service", env="$env", region="$region", traffic_flag=~"$traffic_flag",method=~"$scenario", job=~"$idc", code="OK"} [1m]) )
+会聚合全部数据，相当于忽略所有花括号中的标签，将rpc_retry_qps全部累加。
+
+3、sum(rate(videosearch_ss_rpc_retry_qps{callee="us", application="$service", env="$env", region="$region", traffic_flag=~"$traffic_flag",method=~"$scenario", job=~"$idc", code="OK"} [1m])) by(code)
+按照code来聚合数据，有几个不同的code就会有几条结果。
