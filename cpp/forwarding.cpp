@@ -3,7 +3,7 @@
 
 // 右值和左值的区别
 // The key difference is of course that an rvalue reference can bind to an rvalue, whereas a non-const lvalue reference cannot.
-// 右值引用可以绑定到那些非const左值引用不等绑定的右值，这里说的其实就是临时值/将亡值
+// 右值引用可以绑定到那些非const左值引用不能绑定的右值，这里说的其实就是临时值/将亡值
 
 // 完美转发
 // When you combine rvalue references with function templates you get an interesting interaction: 
