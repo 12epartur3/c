@@ -9,8 +9,8 @@
 // When you combine rvalue references with function templates you get an interesting interaction: 
 // if the type of a function parameter is an rvalue reference to a template type parameter then the type parameter is deduce to be an lvalue reference 
 // if an lvalue is passed, and a plain type otherwise
-// 当右值引用和函数模板放在一起的时候，会有一些奇怪的现象：如果函数的参数类型是模板参数的右值引用&&T，当传一个左值进来给这个函数，那么这个函数参数将退化成左值引用，
-// 如果是其他类型（如右值），那么这个参数就变成一个普通类型。
+// 当右值引用和函数模板放在一起的时候，会有一些奇怪的现象：如果函数的参数类型是模板参数的右值引用&&T，当传一个左值进来给这个函数，那么这个函数参数将推断成左值引用，
+// 如果是其他类型（如右值），那么这个参数就推断成一个普通类型。
 
 // 有什么用
 // Why is this useful? Well, it means that a function template can pass its arguments through to another function whilst retaining the lvalue/rvalue 
