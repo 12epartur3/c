@@ -166,8 +166,8 @@ void TaskGroup::sched_to(TaskGroup** pg, TaskMeta* next_meta) {
     *pg = g;
 }
 
-//5、调度完成后执行task_runner，其中m->fn(m->arg)执行了用户函数，后续调用ending_sched(&g)持续切换协程栈调度其他任务，当调度到的协程栈的协程pid是当前pthread线程的pid时结束，
-//又开始在wait_task处等待新的需要调度的协程到来。
+//5、调度完成后执行task_runner，其中m->fn(m->arg)执行了用户函数，后续调用ending_sched(&g)持续切换协程栈调度其他任务，没有其他协程可以调度时，设置tid = g->_main_tid表示，
+//接下来又开始在wait_task处等待新的需要调度的协程到来。
 void TaskGroup::task_runner(intptr_t skip_remained) {
     // NOTE: tls_task_group is volatile since tasks are moved around
     //       different groups.
