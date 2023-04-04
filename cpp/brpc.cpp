@@ -1,5 +1,5 @@
 //brpc 协程切换
-
+//https://zhuanlan.zhihu.com/p/294129746
 //1、首先启动concurrency个pthread，每个pthread传递worker_thread函数进入执行。
 int TaskControl::init(int concurrency) {
     if (_concurrency != 0) {
