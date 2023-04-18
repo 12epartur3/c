@@ -20,3 +20,22 @@ class D : public B C {
 // Bjarne是通过将虚基类的偏移放在虚函数表中实现的。
 // B放有一个vptr指向虚函数表，虚函数表的正向偏移*vptr[x]，x >= 0，存放的是虚函数的地址，负向偏移，x<0，存放的是虚基类相对于B起始地址的偏移。
 // C同样也是这样实现。
+
+class Point3d {
+  public:
+  int x_;
+  int y_;
+  int z_;
+};
+
+// &Point3d::x_ = 0
+// &Point3d::y_ = 4
+// &Point3d::y_ = 8
+// 这种操作返回的是变量在class中的偏移，存取的时候直接通过具体变量地址+偏移就可以访问。
+
+// 深度探索c++对象模型，第三章page133
+Point3d origin, *pt = &origin;
+origin.x = 0.0;
+pt->x = 0.0;
+
+当origin是一个派生类，并且继承结构中有一个虚基类，并且x是从该虚基类继承过来的member时，会有重大的差异
