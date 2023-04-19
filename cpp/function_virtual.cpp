@@ -42,4 +42,9 @@ a.sfunc(5);
 // 以上这几种函数时不能编译通过的
 // 获取一个static member function的地址，将获得其在内存中的真正地址。
 // &A::sfunc(int x) 类型是 void (*)(int)，而不是void (A::*)(int)
-  
+ 
+// 深度探索c++对象模型，第四章，page157
+// 重点说下虚函数表，虚函数表的vptr[0]保存这个class的typeinfo，后续的slot，vptr[1] ~ vptr[n]按照声明顺序保存虚函数。vptr[-1] ~ vptr[-n]保存虚基类的指针。
+// 每个class都有自己的虚函数表，可能和基类一样也可能不一样。
+// 逻辑是这样的，该类继承基类的虚函数表，若override了其中一些虚函数，在对应的slot将函数地址改为override后的新函数地址。
+// 这样就可以实现，调用vfunc，会从派生类到基类，找到第一个具体的函数实现。类似bottom to up的调用操作。
