@@ -48,3 +48,30 @@ a.sfunc(5);
 // 每个class都有自己的虚函数表，可能和基类一样也可能不一样。
 // 逻辑是这样的，该类继承基类的虚函数表，若override了其中一些虚函数，在对应的slot将函数地址改为override后的新函数地址。
 // 这样就可以实现，调用vfunc，会从派生类到基类，找到第一个具体的函数实现。类似bottom to up的调用操作。
+
+// 多重继承下的虚函数 第四章，page159
+class Base1 {
+  public:
+    Base1();
+    virtual ~Base1();
+  protected:
+    float data_Base1;
+};
+class Base2 {
+  public:
+    Base2();
+    virtual ~Base2();
+  protected:
+    float data_Base2;
+};
+class Derived : public Base1, public Base2 {
+  public:
+    Derived();
+    virtual ~Derived();
+  protected:
+    float data_Derived;
+}
+Base2 *pbase2 = new Derived;
+// 上面这句话会转换成
+// Derived *tmp = new Derived;
+// Base2 *pbase2 = tmp ? tmp + sizeof(base1) : 0;
